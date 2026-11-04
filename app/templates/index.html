@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Inicio | TechBol{% endblock %}
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm">
+  <h1 class="display-5 fw-bold">Sistema de inventario y ventas</h1>
+  <p class="col-md-8 fs-5">Bienvenido al sistema monolítico modular de TechBol. Administra clientes, productos, existencias y pedidos desde los módulos del menú.</p>
+  <a class="btn btn-primary btn-lg" href="{{ url_for('productos.listar') }}">Gestionar productos</a>
+</div>
+<div class="row g-3">
+  {% for nombre, detalle, endpoint in [
+    ("Clientes", "Registrar y administrar clientes.", "clientes.listar"),
+    ("Productos", "Controlar precios y existencias.", "productos.listar"),
+    ("Pedidos", "Registrar ventas y actualizar stock.", "pedidos.listar")
+  ] %}
+  <div class="col-md-4"><div class="card h-100 shadow-sm"><div class="card-body">
+    <h5 class="card-title">{{ nombre }}</h5><p class="card-text">{{ detalle }}</p>
+    <a href="{{ url_for(endpoint) }}" class="btn btn-outline-primary">Abrir módulo</a>
+  </div></div></div>
+  {% endfor %}
+</div>
+{% endblock %}

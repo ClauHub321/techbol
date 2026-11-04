@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Pedidos | TechBol{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3"><h2>Pedidos</h2><a class="btn btn-primary" href="{{ url_for('pedidos.nuevo') }}">+ Nuevo pedido</a></div>
+<div class="card shadow-sm"><div class="table-responsive"><table class="table table-striped mb-0">
+<thead><tr><th>ID</th><th>Fecha</th><th>Cliente</th><th>Producto</th><th>Cantidad</th><th>Monto (Bs)</th><th>Acciones</th></tr></thead><tbody>
+{% for p in pedidos %}<tr><td>{{ p.id }}</td><td>{{ p.fecha.strftime('%d/%m/%Y') }}</td><td>{{ p.cliente.nombre }}</td><td>{{ p.producto.nombre }}</td><td>{{ p.cantidad }}</td><td>{{ '%.2f'|format(p.monto) }}</td><td class="d-flex gap-2">
+<a class="btn btn-sm btn-warning" href="{{ url_for('pedidos.editar', id=p.id) }}">Editar</a>
+<form method="post" action="{{ url_for('pedidos.eliminar', id=p.id) }}" onsubmit="return confirm('¿Eliminar este pedido y devolver el stock?')"><button class="btn btn-sm btn-danger">Eliminar</button></form>
+</td></tr>{% else %}<tr><td colspan="7" class="text-center py-4">No hay pedidos registrados.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

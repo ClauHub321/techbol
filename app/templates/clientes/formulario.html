@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Cliente | TechBol{% endblock %}
+{% block content %}
+<h2 class="mb-3">{{ 'Editar cliente' if cliente else 'Nuevo cliente' }}</h2>
+<form method="post" class="card card-body shadow-sm" style="max-width:600px">
+  <label class="form-label">Nombre</label><input class="form-control mb-3" name="nombre" required maxlength="120" value="{{ cliente.nombre if cliente else '' }}">
+  <label class="form-label">Teléfono</label><input class="form-control mb-3" name="telefono" required maxlength="30" value="{{ cliente.telefono if cliente else '' }}">
+  <div><button class="btn btn-primary">Guardar</button> <a class="btn btn-secondary" href="{{ url_for('clientes.listar') }}">Cancelar</a></div>
+</form>
+{% endblock %}

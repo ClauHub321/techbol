@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Pedido | TechBol{% endblock %}
+{% block content %}
+<h2 class="mb-3">{{ 'Editar pedido' if pedido else 'Nuevo pedido' }}</h2>
+{% if not clientes or not productos %}<div class="alert alert-warning">Primero registra al menos un cliente y un producto.</div>{% endif %}
+<form method="post" class="card card-body shadow-sm" style="max-width:650px">
+  <label class="form-label">Cliente</label><select class="form-select mb-3" name="cliente_id" required>
+    <option value="">Selecciona un cliente</option>{% for c in clientes %}<option value="{{ c.id }}" {% if pedido and pedido.cliente_id == c.id %}selected{% endif %}>{{ c.nombre }}</option>{% endfor %}
+  </select>
+  <label class="form-label">Producto</label><select class="form-select mb-3" name="producto_id" required>
+    <option value="">Selecciona un producto</option>{% for p in productos %}<option value="{{ p.id }}" {% if pedido and pedido.producto_id == p.id %}selected{% endif %}>{{ p.nombre }} — Bs {{ '%.2f'|format(p.precio) }} (stock: {{ p.stock }}{% if pedido and pedido.producto_id == p.id %} + {{ pedido.cantidad }}{% endif %})</option>{% endfor %}
+  </select>
+  <label class="form-label">Cantidad</label><input class="form-control mb-3" type="number" name="cantidad" min="1" step="1" required value="{{ pedido.cantidad if pedido else 1 }}">
+  <label class="form-label">Fecha</label><input class="form-control mb-3" type="date" name="fecha" required value="{{ pedido.fecha.isoformat() if pedido else fecha_hoy }}">
+  <div><button class="btn btn-primary" {% if not clientes or not productos %}disabled{% endif %}>Guardar pedido</button> <a class="btn btn-secondary" href="{{ url_for('pedidos.listar') }}">Cancelar</a></div>
+</form>
+{% endblock %}
